@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/services.dart';
 
@@ -8,6 +9,14 @@ class FlutterEmailSender {
 
   static Future<void> send(Email mail) {
     return _channel.invokeMethod('send', mail.toJson());
+  }
+
+  static Future<bool> canSend() {
+    if (Platform.isIOS) {
+      return _channel.invokeMethod('canSend');
+    }
+
+    return Future.value(true);
   }
 }
 
